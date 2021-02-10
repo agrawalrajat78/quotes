@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="./index.css">
+
+  <title>Quality Quotes</title>
+
+</head>
+
+<body>
+  <div class="main-div container-fluid">
+    <div class="center-div container p-5">
+      <div class="text_div row " data-aos="zoom-in" >
+        
+          <button class="btn btn-primary text-light btn-block mt-1 col-md-12" id="tweetMe"><i class="fab fa-twitter"></i></button>
+          <p class="p-5 col-md-6" id="quotes">This Agreement is governed by the laws of the distribution of the Program </p>
+          <p class="col-md-12 text-right" id="author" class="float-right pr-1">author</p>
+
+          <button class="btn btn-block btn-primary pb-1 mb-1 col-md-12" id="newQ">New Quotes</button>
+        
+      </div>
+    </div>
+
+  </div>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+    const quotes = document.getElementById("quotes");
+    const author = document.getElementById("author");
+    const newQ = document.getElementById("newQ");
+    const tweetMe = document.getElementById("tweetMe");
+
+
+    let realData = ""
+    let quotesData = ""
+    const tweetNow = () => {
+      let tweetPost = `https://twitter.com/intent/tweet?text=${quotesData.text}`;
+      window.open(tweetPost);
+    }
+
+
+
+
+    const getNew = () => {
+      let rnum = Math.floor(Math.random()*1000);
+      console.log(rnum);
+      quotesData = realData[rnum]
+      quotes.innerText = `${quotesData.text}`;
+      (quotesData.author == null) ? (author.innerText = unknown) : (author.innerText = `By : ${quotesData.author}`);
+    }
+    const getQuotes = async () => {
+
+      const api = "https://type.fit/api/quotes";
+      try {
+        let data = await fetch(api);
+        realData = await data.json();
+        getNew();
+
+      } catch (error) { }
+
+
+    };
+
+
+    newQ.addEventListener('click', getNew);
+
+    tweetMe.addEventListener('click', tweetNow);
+
+    getQuotes();
+
+
+
+
+  </script>
+
+
+
+
+
+</body>
+
+</html>
